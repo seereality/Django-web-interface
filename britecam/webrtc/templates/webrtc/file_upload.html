@@ -1,0 +1,104 @@
+{% extends "webrtc/base.html" %}
+{% block content-body %}
+<body>
+  <table>
+  <tr>
+  <td>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="page-header">
+                    <h2>Upload File</h2>
+                </div>
+                <form id="registrationForm" method="post" class="form-horizontal" action="/webrtc/upload_file/" enctype="multipart/form-data"
+                    data-bv-feedbackicons-valid="glyphicon glyphicon-ok"
+                    data-bv-feedbackicons-invalid="glyphicon glyphicon-remove"
+                    data-bv-feedbackicons-validating="glyphicon glyphicon-refresh">{% csrf_token %}
+ 
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Name:</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="filename" value=""
+                                data-bv-notempty="true"
+                                data-bv-notempty-message="Name is required and cannot be empty"
+ 
+                                />
+                        </div>
+                    </div>
+ 
+		 <div class="form-group">
+                        <label class="col-lg-3 control-label">Notes:</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="notes" value=""
+                                data-bv-notempty="true"
+                                data-bv-notempty-message="Name is required and cannot be empty"
+ 
+                                />
+                        </div>
+                    </div>
+
+		<div class="form-group">
+                        <label class="col-lg-3 control-label">Rating:</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="rating" value=""
+                                data-bv-notempty="true"
+                                data-bv-notempty-message="Name is required and cannot be empty"
+ 
+                                />
+                        </div>
+                    </div>
+  
+
+                <div class="form-group">
+                        <label class="col-lg-3 control-label">Camp Poster:</label>
+                        <div class="col-lg-5">
+                            <input type="file" name="docfile"
+                                data-bv-notempty="false"
+                                />
+                        </div>
+                    </div>
+                    <!--div class="form-group">
+                        <label class="col-lg-3 control-label">Date of birth</label>
+                        <div class="col-lg-5">
+                            <input type="text" class="form-control" name="birthday" placeholder="YYYY/MM/DD"
+                                data-bv-notempty="true"
+                                data-bv-notempty-message="The date of birth is required"
+ 
+                                data-bv-date="true"
+                                data-bv-date-format="YYYY/MM/DD"
+                                data-bv-date-message="The date of birth is not valid" />
+                        </div>
+                    </div-->
+ 
+                    <div class="form-group">
+                        <div class="col-lg-9 col-lg-offset-3">
+                            <!-- Do NOT use name="submit" or id="submit" for the Submit button -->
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+ 
+<script>
+$(document).ready(function() {
+    $('#registrationForm').bootstrapValidator();
+});
+</script>
+<!-- Function for selecting the value of Blood Group !-->
+{% if query.bggroup %}
+        <script type="text/javascript">
+                function setSelectValue(val){
+                        document.getElementById(val).className += ' active';
+                        document.getElementById(val + ":").checked = true;
+                }
+        setSelectValue('{{query.bggroup}}');
+        </script>
+{% endif %}
+        </td>
+  </tr>
+</table>
+</body>
+</html>
+{% endblock %}

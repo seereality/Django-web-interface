@@ -1,0 +1,217 @@
+{%extends "webrtc/base.html"%}
+{% block content-body %}
+<style>
+#searchTerm {
+	background: white;
+	border: 1px double #DDD;
+	border-radius: 5px;
+	box-shadow: 0 0 5px #333;
+	color: #666;
+	float: left;
+	padding: 8px 10px;
+	width: 165px;
+	outline: none;
+}
+
+
+.video-list-controls {
+	padding-left: 20px;
+	padding-top: 30px;
+
+}
+
+.video-list-controls td {
+    padding: 10px 10px;    /* 10px top & bottom padding, 10px left & right */
+}
+
+.video-list {
+	padding-left: 30px;
+	padding-top: 10px;
+}
+
+.video-list table {
+	border: 4px solid black;
+}
+
+.video-list td {
+    padding: 10px 10px;    /* 10px top & bottom padding, 10px left & right */
+    border-width: 1px 1px; /* 1px top & bottom border, 1px left & right */
+    border-color: #6750B4;
+    border-style: solid;
+}
+
+
+table a:link {
+	color: #666;
+	font-weight: bold;
+	text-decoration:none;
+}
+table a:visited {
+	color: #999999;
+	font-weight:bold;
+	text-decoration:none;
+}
+table a:active,
+table a:hover {
+	color: #bd5a35;
+	text-decoration:underline;
+}
+table {
+	font-family:Arial, Helvetica, sans-serif;
+	color:#666;
+	font-size:12px;
+	text-shadow: 1px 1px 0px #fff;
+	background:#eaebec;
+	margin:20px;
+	border:#ccc 1px solid;
+
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
+	box-shadow: 0 1px 2px #d1d1d1;
+}
+table th {
+	padding:21px 25px 22px 25px;
+	border-top:1px solid #fafafa;
+	border-bottom:1px solid #e0e0e0;
+
+	background: #ededed;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ededed), to(#ebebeb));
+	background: -moz-linear-gradient(top,  #ededed,  #ebebeb);
+}
+table th:first-child {
+	text-align: left;
+	padding-left:20px;
+}
+table tr:first-child th:first-child {
+	-moz-border-radius-topleft:3px;
+	-webkit-border-top-left-radius:3px;
+	border-top-left-radius:3px;
+}
+table tr:first-child th:last-child {
+	-moz-border-radius-topright:3px;
+	-webkit-border-top-right-radius:3px;
+	border-top-right-radius:3px;
+}
+table tr {
+	text-align: center;
+	padding-left:20px;
+}
+table td:first-child {
+	text-align: left;
+	padding-left:20px;
+	border-left: 0;
+}
+table td {
+	padding:18px;
+	border-top: 1px solid #ffffff;
+	border-bottom:1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+
+	background: #fafafa;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
+}
+table tr.even td {
+	background: #f6f6f6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}
+table tr:last-child td {
+	border-bottom:0;
+}
+table tr:last-child td:first-child {
+	-moz-border-radius-bottomleft:3px;
+	-webkit-border-bottom-left-radius:3px;
+	border-bottom-left-radius:3px;
+}
+table tr:last-child td:last-child {
+	-moz-border-radius-bottomright:3px;
+	-webkit-border-bottom-right-radius:3px;
+	border-bottom-right-radius:3px;
+}
+table tr:hover td {
+	background: #f2f2f2;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
+	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);	
+}
+</style>
+<script>
+
+function doSearch() {
+    		var searchText = document.getElementById('searchTerm').value;
+    		var targetTable = document.getElementById('daa');
+    		var targetTableColCount;
+
+    		//Loop through table rows
+    		for (var rowIndex = 0; rowIndex < targetTable.rows.length; rowIndex++) {
+    			var rowData = '';
+
+    			//Get column count from header row
+    			if (rowIndex == 0) {
+    				targetTableColCount = targetTable.rows.item(rowIndex).cells.length;
+    				continue; //do not execute further code for header row.
+    			}
+
+    			//Process data rows. (rowIndex >= 1)
+    			for (var colIndex = 0; colIndex < targetTableColCount; colIndex++) {
+    				var cellText = '';
+
+    				if (navigator.appName == 'Microsoft Internet Explorer')
+    					cellText = targetTable.rows.item(rowIndex).cells.item(colIndex).innerText;
+    				else
+    					cellText = targetTable.rows.item(rowIndex).cells.item(colIndex).textContent;
+
+    				rowData += cellText;
+    			}
+
+    			// Make search case insensitive.
+    			rowData = rowData.toLowerCase();
+    			searchText = searchText.toLowerCase();
+
+    			//If search term is not found in row data
+    			//then hide the row, else show
+    			if (rowData.indexOf(searchText) == -1)
+    				targetTable.rows.item(rowIndex).style.display = 'none';
+    			else
+    				targetTable.rows.item(rowIndex).style.display = 'table-row';
+    		}
+    	}
+</script>
+<div class="video-list-controls">
+<table>
+	<tr>
+		<td><input type="text" id="searchTerm" class="search_box" placeholder="Search Archive..." onkeyup="doSearch()"></td>
+		<!--<td><button id="batch-remove-button" onclick="batchRemoveFunction()">Batch Remove</button></td>-->
+	</tr>
+</table>
+</div>
+
+
+        {% if order_list %}
+    <table id = "daa" cellspacing=0>
+        <thead>
+                <th>File Name</th>
+                <th>User Name</th>
+                <th>Time Stamp</th>
+                <th>Rating</th>
+                <th>Notes</th>
+        </thead>
+            {% for donor in order_list %}
+            <tr>
+                	<td>{{ donor.file_name }}</td>
+                        <td>{{ donor.user_id }}</td>
+                        <td>{{ donor.timestamp }}</td>
+                        <td>{{ donor.Rating }}</td>
+                        <td>{{ donor.Notes }}</td>
+			<td> <a href="/webrtc/delete_file/{{donor.id}}">Delete</a> </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>Table is Empty</p>
+        {% endif %}
+{% endblock %}
