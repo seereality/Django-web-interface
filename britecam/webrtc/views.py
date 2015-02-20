@@ -15,6 +15,14 @@ from webrtc.models import Consumer,Uploaded_file
 
 # Create your views here.
 
+
+def main(request):
+    context={}
+    return render(request,'webrtc/main.html',context)
+
+
+
+
 @login_required
 def home(request):
     context={}
@@ -28,10 +36,6 @@ def index(request):
         email = request.user.email
         context = {'user': user, 'email': email}
     return render(request, 'webrtc/index.html', context)
-
-def main(request):
-    return render(request,'webrtc/main.html')
-
 
 def delete_file(request,file_id):
 	query = Uploaded_file.objects.get(pk = file_id)
